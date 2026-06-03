@@ -1,0 +1,537 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DESIGN TOKENS — The Seven Kingdoms Palette
+   ============================================================ */
+:root {
+  /* Backgrounds */
+  --obsidian: #0b0c10;
+  --void: #111111;
+  --ash: #1a1a1f;
+  --ember: #222228;
+  --stone: #2d2d35;
+  --slate: #3a3a45;
+
+  /* Text */
+  --parchment: #e8dfc8;
+  --parchment-dim: #a89e88;
+  --parchment-ghost: #5a5248;
+
+  /* Accents */
+  --crimson: #8a0303;
+  --crimson-bright: #c0392b;
+  --crimson-glow: rgba(138, 3, 3, 0.35);
+  --winter-blue: #4a6b82;
+  --winter-blue-bright: #6e9bb5;
+  --winter-blue-glow: rgba(74, 107, 130, 0.35);
+  --gold: #d4af37;
+  --gold-bright: #f0d060;
+  --gold-glow: rgba(212, 175, 55, 0.3);
+  --gold-dim: #8a7020;
+
+  /* Gradients */
+  --gradient-steel: linear-gradient(135deg, #1c1c24 0%, #2a2a35 50%, #1a1a22 100%);
+  --gradient-crimson: linear-gradient(135deg, var(--crimson) 0%, #4a0101 100%);
+  --gradient-gold: linear-gradient(135deg, var(--gold-dim) 0%, var(--gold) 50%, var(--gold-dim) 100%);
+  --gradient-map: radial-gradient(ellipse at 30% 40%, rgba(74, 107, 130, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 70%, rgba(138, 3, 3, 0.06) 0%, transparent 50%),
+    linear-gradient(180deg, #0b0c10 0%, #0f1015 100%);
+}
+
+/* Tailwind custom color utilities */
+@layer base {
+  .bg-obsidian { background-color: var(--obsidian); }
+  .bg-void { background-color: var(--void); }
+  .bg-ash { background-color: var(--ash); }
+  .bg-ember { background-color: var(--ember); }
+  .bg-stone-dark { background-color: var(--stone); }
+  .text-parchment { color: var(--parchment); }
+  .text-parchment-dim { color: var(--parchment-dim); }
+  .text-gold { color: var(--gold); }
+  .text-crimson { color: var(--crimson-bright); }
+  .text-winter { color: var(--winter-blue-bright); }
+  .border-gold { border-color: var(--gold); }
+  .border-crimson { border-color: var(--crimson); }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: auto; /* Lenis handles this */
+  }
+
+  body {
+    background-color: var(--obsidian);
+    color: var(--parchment);
+    font-family: var(--font-inter), system-ui, sans-serif;
+    line-height: 1.6;
+    position: relative;
+  }
+
+  /* ─── Film grain noise overlay ─── */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 180px 180px;
+    opacity: 0.4;
+  }
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+.font-cinzel { font-family: var(--font-cinzel), serif; }
+.font-garamond { font-family: var(--font-garamond), serif; }
+.font-inter { font-family: var(--font-inter), sans-serif; }
+
+/* Cinematic heading style */
+.title-cinematic {
+  font-family: var(--font-cinzel), serif;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.subtitle-regal {
+  font-family: var(--font-garamond), serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+/* Section label — small gold caps */
+.section-label {
+  font-family: var(--font-cinzel), serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.8;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--obsidian);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* ============================================================
+   SELECTION
+   ============================================================ */
+::selection {
+  background: rgba(212, 175, 55, 0.2);
+  color: var(--gold-bright);
+}
+
+/* ============================================================
+   GOLD DIVIDER LINE
+   ============================================================ */
+.divider-gold {
+  width: 60px;
+  height: 1px;
+  background: var(--gradient-gold);
+  margin: 1.5rem auto;
+}
+
+.divider-gold-left {
+  width: 60px;
+  height: 1px;
+  background: var(--gradient-gold);
+  margin: 1.5rem 0;
+}
+
+/* ============================================================
+   ORNAMENTAL CORNER — reusable pseudo-element mixin
+   ============================================================ */
+.corner-ornament {
+  position: relative;
+}
+.corner-ornament::before,
+.corner-ornament::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--gold);
+  border-style: solid;
+  opacity: 0.5;
+}
+.corner-ornament::before {
+  top: 8px;
+  left: 8px;
+  border-width: 1px 0 0 1px;
+}
+.corner-ornament::after {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 1px 1px 0;
+}
+
+/* ============================================================
+   GLOW EFFECTS
+   ============================================================ */
+.glow-gold {
+  box-shadow: 0 0 20px var(--gold-glow), 0 0 60px rgba(212, 175, 55, 0.08);
+}
+.glow-crimson {
+  box-shadow: 0 0 20px var(--crimson-glow), 0 0 60px rgba(138, 3, 3, 0.08);
+}
+.glow-blue {
+  box-shadow: 0 0 20px var(--winter-blue-glow), 0 0 60px rgba(74, 107, 130, 0.08);
+}
+
+.text-glow-gold {
+  text-shadow: 0 0 30px rgba(212, 175, 55, 0.5), 0 0 80px rgba(212, 175, 55, 0.2);
+}
+.text-glow-crimson {
+  text-shadow: 0 0 30px rgba(192, 57, 43, 0.5), 0 0 80px rgba(138, 3, 3, 0.2);
+}
+
+/* ============================================================
+   MAP TEXTURE OVERLAY (used in Hero)
+   ============================================================ */
+.map-texture {
+  position: relative;
+  background: var(--gradient-map);
+}
+
+.map-texture::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 79px,
+      rgba(212, 175, 55, 0.015) 80px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 79px,
+      rgba(212, 175, 55, 0.015) 80px
+    );
+  pointer-events: none;
+}
+
+/* ============================================================
+   METALLIC CARD — for Projects
+   ============================================================ */
+.card-steel {
+  background: var(--gradient-steel);
+  border: 1px solid rgba(212, 175, 55, 0.12);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.card-steel::before {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: -60%;
+  width: 40%;
+  height: 300%;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(212, 175, 55, 0.12) 50%,
+    transparent 60%
+  );
+  transform: skewX(-15deg);
+  transition: left 0.6s ease, top 0.6s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card-steel:hover::before {
+  left: 120%;
+  top: -100%;
+}
+
+.card-steel:hover {
+  border-color: rgba(212, 175, 55, 0.45);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.12);
+}
+
+/* ============================================================
+   TORCH GLOW CARD — for Skills
+   ============================================================ */
+.card-torch {
+  background: rgba(26, 26, 31, 0.8);
+  border: 1px solid rgba(212, 175, 55, 0.08);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-torch::after {
+  content: "";
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease, bottom 0.4s ease;
+  pointer-events: none;
+}
+
+.card-torch:hover::after {
+  opacity: 1;
+  bottom: -20px;
+}
+
+.card-torch:hover {
+  border-color: rgba(212, 175, 55, 0.3);
+  background: rgba(34, 34, 40, 0.95);
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(212, 175, 55, 0.08),
+    inset 0 1px 0 rgba(212, 175, 55, 0.1);
+}
+
+/* ============================================================
+   NAV LINK UNDERLINE EFFECT
+   ============================================================ */
+.nav-link {
+  position: relative;
+  font-family: var(--font-cinzel), serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--parchment-dim);
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--gold);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ============================================================
+   BUTTON STYLES
+   ============================================================ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  font-family: var(--font-cinzel), serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold-dim);
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-gold);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.btn-primary:hover {
+  color: var(--obsidian);
+  border-color: var(--gold);
+}
+
+.btn-primary:hover::before {
+  opacity: 1;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  font-family: var(--font-cinzel), serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--parchment-dim);
+  border: 1px solid rgba(168, 158, 136, 0.25);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-ghost:hover {
+  color: var(--parchment);
+  border-color: rgba(168, 158, 136, 0.6);
+  background: rgba(168, 158, 136, 0.05);
+}
+
+/* ============================================================
+   HORIZONTAL SCROLL SECTION (Forging Alliances)
+   ============================================================ */
+.horizontal-section {
+  overflow: hidden;
+}
+
+.horizontal-track {
+  display: flex;
+  gap: 2rem;
+  will-change: transform;
+}
+
+/* ============================================================
+   TIMELINE LINE (Maester's Path)
+   ============================================================ */
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 1px;
+  background: linear-gradient(180deg, var(--gold-dim) 0%, var(--gold) 50%, var(--gold-dim) 100%);
+  transform-origin: top center;
+  transform: scaleY(0);
+}
+
+.timeline-dot {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--gold);
+  background: var(--obsidian);
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.timeline-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.timeline-dot.active::after {
+  opacity: 1;
+}
+
+/* ============================================================
+   CURSOR CUSTOMIZATION
+   ============================================================ */
+* {
+  cursor: none;
+}
+
+.custom-cursor {
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+  mix-blend-mode: screen;
+}
+
+.custom-cursor-ring {
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, border-color 0.3s;
+}
+
+/* ============================================================
+   SCROLL INDICATOR ANIMATION
+   ============================================================ */
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(6px); opacity: 1; }
+}
+
+.scroll-indicator {
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   BANNER FADE — for horizontal scroll items
+   ============================================================ */
+@keyframes torchFlicker {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.9; }
+}
+
+.torch-flicker {
+  animation: torchFlicker 3s ease-in-out infinite;
+}
+
+/* ============================================================
+   UTILITY
+   ============================================================ */
+.clip-hex {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* suppress lenis default */
+html.lenis { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-scrolling iframe { pointer-events: none; }
