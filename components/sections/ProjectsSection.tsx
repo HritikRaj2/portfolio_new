@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef } from "react";
 import { motion, useInView, Variants } from "framer-motion";
+import { useRef } from "react";
 
 const containerVariants: Variants = {
   hidden: {},
@@ -41,7 +41,7 @@ const projects: Project[] = [
     accent: "var(--gold)",
     github: "https://github.com/HritikRaj2",
     featured: true,
-    icon: "🧠",
+    icon: "hritik-portfolio/public/600ee41a-6063-4346-825a-86532dec629e.jpg",
   },
   {
     id: "social-backend",
