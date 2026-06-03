@@ -41,7 +41,7 @@ const projects: Project[] = [
     accent: "var(--gold)",
     github: "https://github.com/HritikRaj2",
     featured: true,
-    icon: "/600ee41a-6063-4346-825a-86532dec629e.jpg",
+    icon: "🧠",
   },
   {
     id: "social-backend",
